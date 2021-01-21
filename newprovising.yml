@@ -86,9 +86,9 @@
      become: yes
 
    - name: 'Configura Apache para servir Wordpress'
-     copy:
-       src: '/Users/anderson/Documents/ansiblescode/files/000-default.conf'
+     template:
+       src: 'templates/000-default.conf.j2'
        dest: '/etc/apache2/sites-available/000-default.conf'
      become: yes
      notify:
-        - restart apache
+        - restart apache2

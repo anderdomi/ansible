@@ -1,0 +1,5 @@
+---
+wp_username: anderson 
+wp_db_name: anderdb
+wp_user_password: pegduffm1
+wp_installation_dir: '/var/www/wordpress'
