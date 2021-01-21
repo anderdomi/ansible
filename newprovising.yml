@@ -16,22 +16,23 @@
 
     - name: 'Cria o banco do MySQL'
       mysql_db:
-        name: anderdb
+        name: '{{ wp_db_name }}'
         login_user: root
         state: present
 
     - name: 'Cria o usuário do MySQL'
       mysql_user:
         login_user: root
-        name: anderson
-        password: pegduffm1
-        priv: 'anderdb.*:ALL'
+        name: '{{ wp_username }}'
+        password: '{{ wp_user_password }}'
+        priv: '{{ wp_db_name }}.*:ALL'
         state: present
         host: "{{ item }}"
       with_items:
         - 'localhost'
         - '127.0.0.1'
-        - '172.17.177.40'
+        - '{{ wp_host_ip }}'
+
     - name: 'Configura MySQL para aceitar conexões remotas'
       copy:
         src: '/Users/anderson/Documents/ansiblescode/files/my.cnf'
@@ -79,10 +80,10 @@
        regexp: "{{ item.regex }}"
        replace: "{{ item.value }}"
      with_items:
-       - { regex: 'database_name_here', value: 'anderdb' }
-       - { regex: 'username_here', value: 'anderson' }
-       - { regex: 'password_here', value: 'pegduffm1' }
-       - { regex: 'localhost', value: '172.17.177.42'}
+       - { regex: 'database_name_here', value: '{{ wp_db_name }}' }
+       - { regex: 'username_here', value: '{{ wp_username}}' }
+       - { regex: 'password_here', value: '{{ wp_user_password}}' }
+       - { regex: 'localhost', value: '{{ wp_db_ip }}'}
      become: yes
 
    - name: 'Configura Apache para servir Wordpress'
